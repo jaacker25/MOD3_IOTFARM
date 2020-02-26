@@ -1,0 +1,17 @@
+.hamMenu, .MuiButton-root{
+        padding-top: 25px;
+        padding-left: 25px;
+        filter:invert(100%);
+        position: absolute;
+        z-index: 2;
+      }
+.MuiPaper-root{
+    opacity: 0.75;
+}
+
+.divSupNav{
+  position: absolute;
+}
+
+
+
