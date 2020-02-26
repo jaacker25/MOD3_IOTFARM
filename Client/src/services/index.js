@@ -1,25 +1,24 @@
 import axios from 'axios';
-let baseURL;
-
-process.env.NODE_ENV === 'production'
-  ? (baseURL = 'here should be your production endpoint')
-  : (baseURL = 'http://localhost:3000');
+let baseURL = 'http://localhost:3000';
 
 const service = axios.create({ withCredentials: true, baseURL });
 
-const MY_SERVICE = {
+const myService = {
   test: async () => {
     return await service.get('/');
   },
   signup: async (user) => {
-    return await SERVICE.post('/signup', user);
+    return await service.post('/Signup', user);
   },
   login: async (user) => {
-    return await SERVICE.post('/login', user);
+    return await service.post('/Login', user);
   },
   logOut: async () => {
-    return await SERVICE.get('/logout');
+    return await service.get('/Logout');
+  },
+  logged: async () => {
+    return await service.get("/Logged");
   }
 };
 
-export default MY_SERVICE;
+export default myService;

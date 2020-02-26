@@ -3,8 +3,14 @@ const PLM = require('passport-local-mongoose');
 
 const userSchema = new Schema(
   {
+    username:String,
+    firstName:String,
+    lastName:String,
     email: String,
-    name: String
+    image:{
+     type:String,
+     default:"https://res.cloudinary.com/jaacker25/image/upload/v1582697191/IOTFARM/userDefault_t6xafm.png"
+    }
   },
   {
     timestamps: true,

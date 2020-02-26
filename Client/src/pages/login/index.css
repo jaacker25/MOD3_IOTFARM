@@ -30,3 +30,26 @@
       justify-content: center;
 
   }
+  .LoginFormInt{
+    width: 88%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.btnSumbitLogin{
+    margin-top: 60px;
+    border-radius: 5px;
+    width: 100%;
+    padding: 10px 0;
+    background-color:#1a76d2;
+    color: white;
+    text-align: center;
+    }
+  
+    .btnSumbitLogin:hover{
+  cursor: pointer;
+  background-color: #0d3c6b; 
+  }
+  

@@ -44,12 +44,12 @@
   border-radius: 5px;
   width: 100%;
   padding: 10px 0;
-  background-color:#1a76d2;
+  background-color:#4a9e15;
   color: white;
   text-align: center;
   }
 
   .btnSumbitSignUp:hover{
 cursor: pointer;
-background-color: #0d3c6b; 
+background-color: #204409; 
 }
