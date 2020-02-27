@@ -1,22 +1,114 @@
-.glow {
-    font-size: 80px;
-    margin:0;
-    color: #fff;
+.Profile{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color:white;
+}
+
+.topProfileIMG{
+  width: 100vw;
+  height: 50vh;
+  top:0; 
+  left:0;
+  z-index: -1;
+  
+  align-items: center;
+  object-fit: cover;
+  object-position: center;
+  position: absolute;
+  
+  margin: 0;
+  padding: 0;
+}
+
+.faceContainer{
+
+  position: relative;
+  height:190px;
+  width:190px;
+  top:35vh;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+}
+
+.face{
+  background-color:rgb(225, 225, 225);
+  border: 5px solid gray;
+  height:150px;
+  width:150px;
+  padding:15px;
+  border-radius:50%;
+  position: absolute;
+  object-fit: cover;
+  }
+
+  .Profile h1{
+  margin-top: 218px;
+  }
+
+  .articleEditProfile{
+    border: 2px solid #3f51b5;
+    border-radius: 25px;
+    width: 100%;
+    height: auto;
+    background-color: #666;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column; 
+  }
+  .articleInfoProfile{
+    border: 2px solid #3f51b5;
+    border-radius: 25px;
+    width: auto;
+    height: auto;
+    background-image: url('https://res.cloudinary.com/jaacker25/image/upload/v1582756298/IOTFARM/logo-removebg-preview_krq4tj.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    margin: 0 18px;
+  }
+
+  .submitFormProfile{
+    align-self: flex-end;
+    padding-right: 8%;
+    padding-bottom: 4%;
+    display: flex;
+    flex-direction: row;
+    color:black;
+
+  }
+  .containerFormEditProfile{
+    width: 85%;
+    height: 85%;
+    padding: 4% 0;
+  }
+  .sectionProjectCards{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  }
+
+
+
+  .btnSumbitLogout{
+    margin-top: 60px;
+    border-radius: 5px;
+    width: 250px;
+    padding: 10px 0;
+    background-color:#f50057;
+    color: white;
     text-align: center;
-    -webkit-animation: glow 1s ease-in-out infinite alternate;
-    -moz-animation: glow 1s ease-in-out infinite alternate;
-    animation: glow 1s ease-in-out infinite alternate;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    }
+  
+    .btnSumbitLogout:hover{
+  cursor: pointer;
+  background-color: #ab003c; 
   }
-
- 
-
-  @keyframes glow {
-    0% { text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #08e600, 0 0 40px #08e600, 0 0 50px #08e600, 0 0 60px #08e600, 0 0 70px #08e600; }
-    100% { text-shadow: 0 0 20px #fff, 0 0 30px #71ff4d, 0 0 40px #71ff4d, 0 0 50px #53ff4d, 0 0 60px #53ff4d, 0 0 70px #71ff4d 0 0 80px #71ff4d;}
-  }
-
-  /*
-  H=value
-  S=100
-  L=45.1 and 65.1
-  */
+  

@@ -13,11 +13,17 @@ const myService = {
   login: async (user) => {
     return await service.post('/Login', user);
   },
-  logOut: async () => {
+  logout: async () => {
     return await service.get('/Logout');
   },
   logged: async () => {
     return await service.get("/Logged");
+  },
+  edit: async (user) => {
+    return await service.post("/Edit", user);
+  },
+  upload: async (user) => {
+    return await service.post("/Upload", user);
   }
 };
 

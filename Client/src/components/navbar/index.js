@@ -74,7 +74,7 @@ export default function Nav() {
 
   return (
     <>
-    <div className="divSupNav"  style={{margin:'18px', padding:'0'}}>
+    <div className="divSupNav">
       <Button className="hamMenu" onClick={toggleDrawer('right', true)}><img style={{width:'50px'}} alt="menu" src="https://cdn4.iconfinder.com/data/icons/circles-1/32/364-01-512.png"></img></Button>
       </div>
       <Drawer anchor="right" open={state.right} onClose={toggleDrawer('right', false)}>

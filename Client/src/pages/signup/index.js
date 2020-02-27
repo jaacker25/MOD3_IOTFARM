@@ -7,7 +7,7 @@ import Avatar from '@material-ui/core/Avatar';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
-import CustomizedSnackbars from '../../components/SignupAlert/index.js'
+import PopFormAlert from '../../components/SignupAlert/index.js'
   
 
 export default class Signup extends Component {
@@ -17,39 +17,55 @@ export default class Signup extends Component {
         lastName:"",
         email:"",
         password:"",
-        alert:false
+        alert:false,
+        alertmsg:''
         
     }
      
+    validateEmail=(email)=>{
+      let chr = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      return chr.test(email);
+    }
+    
+    validatePassword=(psw)=>{
+      let chr=  /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{3,15}$/;
+      return psw.match(chr); 
+    }
 
     handleChange=({target:{name,value}})=>{
         this.setState({[name]:value})
     }
     
-    handleAlertTime=()=>{
+    handleAlertTime=(text)=>{
         setTimeout(
             function() {
-                this.setState({alarm:false})
+                this.setState({alert:false})
             }
             .bind(this),
             5000
         );
-        this.setState({alarm:true})
+        this.setState({alert:true,alertmsg:text})
     }
 
     handleSubmit= async()=>{
-     if(this.state.username===''||this.state.firstName===''||this.state.lastName===''||this.state.email===''||this.state.password===''){
-    this.handleAlertTime();
-     }else{
-     const res=await myService.signup(this.state).catch(err=>console.log(err))
-     if( res && res.data ) return this.props.history.push("/login")
-     } 
+     
+      if(this.state.username===''||this.state.firstName===''||this.state.lastName===''||this.state.email===''||this.state.password===''){
+        this.handleAlertTime('Please complete all fields!');
+         }else{
+          if(!this.validateEmail(this.state.email)){
+            this.handleAlertTime('Invalid Email!');
+             }else{
+              if(!this.validatePassword(this.state.password)){
+                this.handleAlertTime('Invalid Password!');
+                 }else{
+                  const res=await myService.signup(this.state).catch(err=>this.handleAlertTime('User account already exists!'))
+                  if( res && res.data ) return this.props.history.push("/login")
+                 }
+             }  
+         }
     }
 
     render() {
-
-
-
 
         return (
             <div className="Signup">
@@ -131,6 +147,14 @@ export default class Signup extends Component {
                 value={this.state.password} 
                 onChange={this.handleChange}
               />
+              <p 
+              style={{color:'gray',fontSize:'0.75rem',margin:'0'}}
+              >Password must be 3 to 15 characters, at least one numeric digit and a special character.</p>
+              <p 
+              style={{color:'gray',fontSize:'0.75rem', margin:'0'}}
+              >Allow ! @ # $ % ^ & *</p>
+
+
             </Grid>
             
           </Grid>
@@ -144,7 +168,9 @@ export default class Signup extends Component {
                 Already have an account? Login
               </Link>
           </div>
-          {this.state.alarm?<CustomizedSnackbars/>:null}
+          {this.state.alert?<PopFormAlert
+            msg={this.state.alertmsg}
+          />:null}
         </form>
         
         </div>

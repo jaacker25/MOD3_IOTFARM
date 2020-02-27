@@ -8,9 +8,10 @@ function Alert(props) {
 }
 
 
-export default function CustomizedSnackbars() {
+export default function PopFormAlert(props) {
 
   const [open, setOpen] = React.useState(false);
+  //const msg=this.props.msg
   const handleClose = (event, reason) => {
     if (reason === 'clickaway') {
       return;
@@ -20,9 +21,9 @@ export default function CustomizedSnackbars() {
 
   return (
 
-      <Snackbar style={{marginRight:'9%'}} open={true} autoHideDuration={4000} onClose={handleClose} key={'bottom,right'} anchorOrigin={{horizontal:'right',vertical:'bottom'}}>
+      <Snackbar open={true} autoHideDuration={4000} onClose={handleClose} key={'top,right'} anchorOrigin={{horizontal:'right',vertical:'top'}}>
         <Alert onClose={handleClose} severity="error">
-        Please complete all fields!
+        {props.msg}
         </Alert>
       </Snackbar>
 

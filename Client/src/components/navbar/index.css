@@ -2,15 +2,20 @@
         padding-top: 25px;
         padding-left: 25px;
         filter:invert(100%);
-        position: absolute;
-        z-index: 2;
+        z-index: 4;
+        
       }
 .MuiPaper-root{
     opacity: 0.75;
+    z-index: 4;
 }
 
 .divSupNav{
   position: absolute;
+  
+  margin:18px; 
+  padding:0;
+  z-index: 4;
 }
 
 

@@ -7,41 +7,43 @@ import Avatar from '@material-ui/core/Avatar';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import CustomizedSnackbars from '../../components/SignupAlert/index.js'
+import PopFormAlert from '../../components/SignupAlert/index.js'
 
 
 
 export default class Login extends Component {
     state={
         email:"",
-        password:""
+        password:"",
+        alert:false,
+        alertmsg:''
     }
 
     handleChange=({target:{name,value}})=>{
         this.setState({[name]:value})
     }
 
-    handleAlertTime=()=>{
+    handleAlertTime=(text)=>{
         setTimeout(
             function() {
-                this.setState({alarm:false})
+                this.setState({alert:false})
             }
             .bind(this),
             5000
         );
-        this.setState({alarm:true})
+        this.setState({alert:true,alertmsg:text})
     }
-
 
     handleSubmit= async()=>{
         if(this.state.email===''||this.state.password===''){
-       this.handleAlertTime();
+         this.handleAlertTime('Please complete all fields!');
         }else{
-        const res=await myService.login(this.state).catch(err=>console.log(err))
+        const res=await myService.login(this.state).catch(err=>this.handleAlertTime('The email or password is incorrect'))
         if( res && res.data ) return this.props.history.push("/Profile")
         } 
        }
 
+       
 
     render() {
         return (
@@ -95,7 +97,10 @@ export default class Login extends Component {
               Don't have an account? Sign Up
               </Link>
           </div>
-          {this.state.alarm?<CustomizedSnackbars/>:null}
+          {this.state.alert?<PopFormAlert
+            msg={this.state.alertmsg}
+          />:null}
+          
     </form>
   </div>
   
