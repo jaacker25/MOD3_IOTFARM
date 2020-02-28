@@ -6,15 +6,11 @@ import Card from '@material-ui/core/Card';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
-import Rating from '@material-ui/lab/Rating';
 import IconButton from '@material-ui/core/IconButton';
 import LocationOn from '@material-ui/icons/LocationOn';
-import MoreHoriz from '@material-ui/icons/MoreHoriz';
 import TodayIcon from '@material-ui/icons/Today';
 import EcoIcon from '@material-ui/icons/Eco';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import SettingsInputAntennaIcon from '@material-ui/icons/SettingsInputAntenna';
-import FaceGroup from '@mui-treasury/components/group/face';
 import { useWideCardMediaStyles } from '@mui-treasury/styles/cardMedia/wide';
 import { useFadedShadowStyles } from '@mui-treasury/styles/shadow/faded';
 import { usePushingGutterStyles } from '@mui-treasury/styles/gutter/pushing';
@@ -57,7 +53,7 @@ const ReviewCard = (props) => {
   const shadowStyles = useFadedShadowStyles();
   const gutterStyles = usePushingGutterStyles({ firstExcluded: true });
   return (
-    <Card elevation={0} className={styles.root} style={{margin:'25px'}}>
+    <Card elevation={0} className={styles.root} style={{margin:'25px',width:'350px', height:'428px'}}>
       <CardMedia
         classes={mediaStyles}
         image={

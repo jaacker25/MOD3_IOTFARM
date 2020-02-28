@@ -1,6 +1,8 @@
 .Home{
   display: flex;
   justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 
 .HomeTopImg{
@@ -15,16 +17,15 @@
     position: absolute;
   }
   
-  .HomeLogoImg{
-    margin-top: 10px;
-    width: 150px;
-    
 
-    animation: HomeLogoImg 1s ease-in-out infinite alternate ;
-  }
-
-
-  @keyframes HomeLogoImg {
-    0% { filter: blur(3px); opacity: 0.05;}
-    100% { filter: blur(0); opacity: 0.5;}
+  .Home h1{
+    position: absolute;
+    top: 40%;
+    font-family: 'Gulim';
+    letter-spacing: 0.2em;
+    color:white;
+    opacity: 0.3;
+    font-size: 1.75rem;
+    margin: 0 25px;
+    text-align: center;
   }

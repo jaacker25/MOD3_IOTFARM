@@ -6,8 +6,7 @@ const Home = () => {
     return (
         <div className="Home">
         <img className="HomeTopImg" alt="home" src=".././earth_1.gif"></img>
-        <img className="HomeLogoImg" alt="logo" src="https://res.cloudinary.com/jaacker25/image/upload/v1582756298/IOTFARM/logo-removebg-preview_krq4tj.png"></img>
-        
+        <h1>The Ultimate IoT Smart Farming</h1>
        {/* <img className="topHome" alt="home" src=".././earth_1.gif"></img>*/}
         </div>
     )

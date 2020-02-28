@@ -5,6 +5,7 @@ import React, { Component } from 'react'
 import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
 import PopFormAlert from '../../components/SignupAlert/index.js'
 import ReviewCard from '../../components/ProjectCard/index.js'
+import VoidCard from '../../components/VoidProjectCard/index.js'
 import Fab from '@material-ui/core/Fab';
 import Switch from '@material-ui/core/Switch';
 import Fade from '@material-ui/core/Fade';
@@ -123,9 +124,11 @@ export default class Profile extends Component {
                   style={{marginTop:'0px',color:'white'}} 
                    />
                    <br/>
+            
                    <article className="articleInfoProfile">
                    <Fade in={this.state.checked}>
-                       <article className="articleEditProfile">
+                       <article className="articleEditProfile" id="testing">
+                       
                        <div className="containerFormEditProfile">
                        <Grid container spacing={1}>
                        <Grid item xs={12} sm={6}>
@@ -182,18 +185,17 @@ export default class Profile extends Component {
                          <CheckOutlinedIcon />
                        </Fab>
                        </div>
+                       
                        </article>
                    </Fade>
                    </article>
+                   
                    <br/><br/>
                     <section className="sectionProjectCards">
                     <ReviewCard img={this.state.image} fname={this.state.firstName} lname={this.state.lastName}/>
                     <ReviewCard img={this.state.image} fname={this.state.firstName} lname={this.state.lastName}/>
-                    <ReviewCard img={this.state.image} fname={this.state.firstName} lname={this.state.lastName}/>
-                    <ReviewCard img={this.state.image} fname={this.state.firstName} lname={this.state.lastName}/>
-                    <ReviewCard img={this.state.image} fname={this.state.firstName} lname={this.state.lastName}/>
-                    <ReviewCard img={this.state.image} fname={this.state.firstName} lname={this.state.lastName}/>
-                    <ReviewCard img={this.state.image} fname={this.state.firstName} lname={this.state.lastName}/>
+          
+                    <VoidCard auth={this.state.username}/>
                     </section>
 <footer>
 <h4 type="submit" onClick={this.handleLogout} className="btnSumbitLogout">

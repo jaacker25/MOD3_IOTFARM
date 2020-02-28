@@ -69,6 +69,10 @@ export default function Nav() {
           </ListItem>
         ))}
       </List>
+    
+      <div className="divNavLogoImg">
+      <img className="NavLogoImg" alt="logo" src="https://res.cloudinary.com/jaacker25/image/upload/v1582756298/IOTFARM/logo-removebg-preview_krq4tj.png"></img>
+      </div>
     </div>
   );
 
