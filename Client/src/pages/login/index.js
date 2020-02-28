@@ -39,6 +39,8 @@ export default class Login extends Component {
          this.handleAlertTime('Please complete all fields!');
         }else{
         const res=await myService.login(this.state).catch(err=>this.handleAlertTime('The email or password is incorrect'))
+       // console.log('imprimiendo res')
+       // console.log(res)
         if( res && res.data ) return this.props.history.push("/Profile")
         } 
        }

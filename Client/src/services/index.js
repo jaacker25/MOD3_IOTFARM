@@ -24,6 +24,9 @@ const myService = {
   },
   upload: async (user) => {
     return await service.post("/Upload", user);
+  },
+  newProj: async (data) => {
+    return await service.post("/project/newProject",data)
   }
 };
 

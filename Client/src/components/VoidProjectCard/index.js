@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useHistory } from "react-router-dom"; //re rendering test 2
+import myService from "../../services"
 
 import { makeStyles } from '@material-ui/styles';
 import Fab from '@material-ui/core/Fab';
@@ -17,6 +19,8 @@ import Grid from '@material-ui/core/Grid';
 
 import PopFormAlert from '../../components/SignupAlert/index.js'
 
+//const useForceUpdate = () => useState()[1];//rerendering test 1
+
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -28,7 +32,8 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const VoidCard = ({auth}) => {
+
+  const VoidCard = () => {
   const styles = useStyles();
   const mediaStyles = useWideCardMediaStyles();
   const [open, setOpen] = React.useState(false);
@@ -38,6 +43,8 @@ const VoidCard = ({auth}) => {
   const [author, setAuthor] = React.useState('');
   const [alert, setAlert] = React.useState(false);
   const [alertmsg,setAlertmsg] = React.useState('');
+  //const forceUpdate = useForceUpdate();//re rendering test 1
+  let history = useHistory(); //re rendering test 2
 
 
   const handleClickOpen = () => {
@@ -48,13 +55,27 @@ const VoidCard = ({auth}) => {
     setOpen(false);
   };
 
-  const handleSubmitProjectForm=()=>{
+  const handleSubmitProjectForm=(props)=>{
    if(pName===''||location===''||author===''||description===''){
     handleAlertTime('Please complete all fields!');
    }else{
     const p={pName,location,author,description}
-    console.log(p)
-    setOpen(false);
+    myService.newProj(p)
+    .then((project) => {
+     const {data} = project
+     const {proj}=data
+     const {pName, location, description, author, _id} = proj
+     
+     setPName(pName)
+     setLocation(location)
+     setAuthor(author)
+     setDescription(description)
+     //forceUpdate();//rerendering test 1
+     history.push(`/Farm/${_id}`);//re rendering test 2
+     setOpen(false);
+
+     
+    })    
    }
   }
 
@@ -83,7 +104,7 @@ const handleAlertTime=(text)=>{
   setAlert(true);
   setAlertmsg(text);
 }
-
+console.log('rendering');
   return (
     <>
     <Card elevation={0} className={styles.root} style={{margin:'25px',width:'350px', height:'428px'}}>
@@ -137,7 +158,7 @@ const handleAlertTime=(text)=>{
               <TextField
                 fullWidth
                 id="author"
-                label="Author"
+                label="Project Manager "
                 name="author"
                 margin="dense"
                 value={author} 

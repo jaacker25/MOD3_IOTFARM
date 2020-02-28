@@ -10,10 +10,33 @@ router.post('/signup', (req, res, next) => {
     .catch((err) => res.status(500).json({ err }));
 });
 
-router.post('/login', passport.authenticate('local'), (req, res, next) => {
+/*
+router.post('/login', passport.authenticate('local'), async(req, res, next) => {
   const { user } = req;
-  res.status(200).json({ user });
+
+  const appointment = await User.findById(user._id).populate('projects')
+console.log(appointment.projects)
+  if(!appointment) 
+res.status(500).json({msg: 'Appointment not found'})
+res.status(200).json({appointment})
+
+
+ // res.status(200).json({ user });
 });
+*/
+
+
+router.post('/login',passport.authenticate('local'),
+  async (req, res, next) => {
+    const { _id } = req.user
+    const user = await User.findById(_id)
+    .then((user) => res.status(200).json({ user }))
+    .catch((err) => res.status(500).json({ err }));
+  }
+)
+
+
+
 
 router.get('/logout', (req, res, next) => {
   req.logout();
@@ -27,7 +50,7 @@ router.get('/profile', isAuth, (req, res, next) => {
 });
 
 router.get("/logged",isAuth,(req,res,next)=>{
-  User.findById(req.user._id)
+  User.findById(req.user._id).populate('projects')
   .then((user) => res.status(200).json({ user }))
   .catch((err) => res.status(500).json({ err }));
 })

@@ -10,8 +10,12 @@ const userSchema = new Schema(
     image:{
      type:String,
      default:"https://res.cloudinary.com/jaacker25/image/upload/v1582697191/IOTFARM/userDefault_t6xafm.png"
-    }
-  },
+    },
+    projects:[ {
+      type: Schema.Types.ObjectId,
+      ref:'Project'
+  }
+  ]},
   {
     timestamps: true,
     versionKey: false

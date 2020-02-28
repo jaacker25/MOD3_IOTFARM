@@ -15,6 +15,7 @@ import { useWideCardMediaStyles } from '@mui-treasury/styles/cardMedia/wide';
 import { useFadedShadowStyles } from '@mui-treasury/styles/shadow/faded';
 import { usePushingGutterStyles } from '@mui-treasury/styles/gutter/pushing';
 import Avatar from '@material-ui/core/Avatar';
+import {Link} from 'react-router-dom'
 
 
 const useStyles = makeStyles(() => ({
@@ -47,7 +48,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const ReviewCard = (props) => {
+const ProjectCard = (props) => {
   const styles = useStyles();
   const mediaStyles = useWideCardMediaStyles();
   const shadowStyles = useFadedShadowStyles();
@@ -64,19 +65,19 @@ const ReviewCard = (props) => {
         <IconButton className={styles.favorite}>
           <EcoIcon style={{color:'green'}} />
         </IconButton>
-        <h3 className={styles.title}>Farm #00025</h3>
+        <h3 className={styles.title}>{props.pName}</h3>
         <br/>
         <Box color={'grey.500'} display={'flex'} alignItems={'center'} mb={1}>
           <LocationOn className={styles.locationIcon} />
-          <span>Chiapas, México</span>
+          <span>{props.location}</span>
         </Box>
         <Box color={'grey.500'} display={'flex'} alignItems={'center'} mb={1}>
           <TodayIcon className={styles.locationIcon} />
-          <span>Created: 18/02/2020</span>
+          <span>Created: {props.date}</span>
         </Box>
        
         <Typography color={'textSecondary'} variant={'body2'}>
-        Control and investigation in wine farm with 12 iot nodes. At the moment, the production is increissing 5%.
+        {props.description}
         </Typography>
         <Box
           mt={2}
@@ -92,14 +93,15 @@ const ReviewCard = (props) => {
             
             <Avatar src={props.img} className={styles.avatar} />
       <Box>
-      <h3 className={styles.heading}>{props.fname}&nbsp;&nbsp;{props.lname}</h3>
+      <h3 className={styles.heading}>{props.author}</h3>
        </Box>
           </Box>
 
-
+          <Link to={`/Farm/${props._id}`}>
           <IconButton size={'small'}>
             <ExpandMoreIcon />
           </IconButton>
+          </Link>
         </Box>
       </CardContent>
     </Card>
@@ -107,4 +109,4 @@ const ReviewCard = (props) => {
 };
 
 
-export default ReviewCard;
+export default ProjectCard;

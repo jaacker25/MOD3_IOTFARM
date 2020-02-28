@@ -6,6 +6,7 @@ import Profile from './pages/profile'
 import About from './pages/about'
 import Signup from './pages/signup'
 import Login from './pages/login'
+import Farm from './pages/farm'
 import NotFound from './pages/404'
 
 const Router=()=>{
@@ -19,6 +20,7 @@ const Router=()=>{
     <Route exact path="/About" component={About}/>
     <Route exact path="/Signup" component={Signup}/>
     <Route exact path="/Login" component={Login}/>
+    <Route exact path="/Farm/:projectId" component={Farm}/>
     <Route component={NotFound}/>
     </Switch>
 </BrowserRouter>

@@ -4,7 +4,7 @@ import React, { Component } from 'react'
 
 import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
 import PopFormAlert from '../../components/SignupAlert/index.js'
-import ReviewCard from '../../components/ProjectCard/index.js'
+import ProjectCard from '../../components/ProjectCard/index.js'
 import VoidCard from '../../components/VoidProjectCard/index.js'
 import Fab from '@material-ui/core/Fab';
 import Switch from '@material-ui/core/Switch';
@@ -24,15 +24,24 @@ export default class Profile extends Component {
         image:'',
         alert:false,
         alertmsg:'',
-        checked:false
+        checked:false,
+        loggedUser:{}
         
     }
 
     componentDidMount = async ()=>{
         const res = await myService.logged().catch( ()=> this.props.history.push("/Login"))
+        
+        
         if( res && res.data){
-            const {data: {user: {username, firstName, lastName, email, image}} } = res
-            this.setState({username, firstName, lastName, email, image})        
+          const {data}=res;
+          const {user}=data;
+          const loggedUser=user;
+          
+          
+          const {username, firstName, lastName, email, image}=loggedUser;
+          this.setState({loggedUser,username, firstName, lastName, email, image}) 
+          
         }
     }
 
@@ -192,10 +201,11 @@ export default class Profile extends Component {
                    
                    <br/><br/>
                     <section className="sectionProjectCards">
-                    <ReviewCard img={this.state.image} fname={this.state.firstName} lname={this.state.lastName}/>
-                    <ReviewCard img={this.state.image} fname={this.state.firstName} lname={this.state.lastName}/>
-          
-                    <VoidCard auth={this.state.username}/>
+                    {console.log(this.state.loggedUser.projects)}
+                    {this.state.loggedUser.projects && this.state.loggedUser.projects.map((proj,index) => 
+                      <ProjectCard key={index} img={this.state.image} pName={proj.pName} location={proj.location} description={proj.description} author={proj.author} date={proj.date} _id={proj._id}/>
+                     )}
+                    <VoidCard/>
                     </section>
 <footer>
 <h4 type="submit" onClick={this.handleLogout} className="btnSumbitLogout">
