@@ -55,7 +55,7 @@ const useStyles = makeStyles(() => ({
     setOpen(false);
   };
 
-  const handleSubmitProjectForm=(props)=>{
+  const handleSubmitProjectForm=()=>{
    if(pName===''||location===''||author===''||description===''){
     handleAlertTime('Please complete all fields!');
    }else{
@@ -71,8 +71,9 @@ const useStyles = makeStyles(() => ({
      setAuthor(author)
      setDescription(description)
      //forceUpdate();//rerendering test 1
-     history.push(`/Farm/${_id}`);//re rendering test 2
+     //history.push(`/Farm/${_id}`);//re rendering test 2
      setOpen(false);
+     history.push('/R');
 
      
     })    
@@ -104,13 +105,14 @@ const handleAlertTime=(text)=>{
   setAlert(true);
   setAlertmsg(text);
 }
-console.log('rendering');
+//console.log('rendering');
   return (
     <>
-    <Card elevation={0} className={styles.root} style={{margin:'25px',width:'350px', height:'428px'}}>
+    <Card elevation={0} className={styles.root} style={{margin:'25px',width:'350px', height:'428px',borderRadius:'25px',boxShadow:' 0px 0px 18px 1px rgba(0,0,0,0.44)'}}>
       <CardMedia
         classes={mediaStyles}
         image={'https://res.cloudinary.com/jaacker25/image/upload/e_blur:180/v1582833634/IOTFARM/card_c9zfov.jpg'}
+        style={{borderRadius:'25px'}}
       />
       <div style={{width:'100%',display:'flex',justifyContent:'center',alignItems:'center',padding:'20px 0'}}>
       <h3 className={styles.title}>Add New Project</h3>
@@ -184,13 +186,14 @@ console.log('rendering');
             
           </Grid>
         </DialogContent>
-        <DialogActions>
+        <DialogActions style={{justifyContent:'center'}}>
         <Fab
           variant="extended"
           size="small"
           color="primary"
           aria-label="add"
           onClick={handleSubmitProjectForm}
+          
         >
           <AddIcon />
           Create

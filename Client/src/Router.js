@@ -8,6 +8,7 @@ import Signup from './pages/signup'
 import Login from './pages/login'
 import Farm from './pages/farm'
 import NotFound from './pages/404'
+import R from './pages/refresh'
 
 const Router=()=>{
     return(
@@ -21,6 +22,7 @@ const Router=()=>{
     <Route exact path="/Signup" component={Signup}/>
     <Route exact path="/Login" component={Login}/>
     <Route exact path="/Farm/:projectId" component={Farm}/>
+    <Route exact path="/R" component={R}/>
     <Route component={NotFound}/>
     </Switch>
 </BrowserRouter>

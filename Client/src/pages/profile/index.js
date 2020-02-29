@@ -3,6 +3,7 @@ import myService from "../../services"
 import React, { Component } from 'react'
 
 import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
+import Box from '@material-ui/core/Box';
 import PopFormAlert from '../../components/SignupAlert/index.js'
 import ProjectCard from '../../components/ProjectCard/index.js'
 import VoidCard from '../../components/VoidProjectCard/index.js'
@@ -11,9 +12,28 @@ import Switch from '@material-ui/core/Switch';
 import Fade from '@material-ui/core/Fade';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import CheckOutlinedIcon from '@material-ui/icons/CheckOutlined';
+import CopyrightIcon from '@material-ui/icons/Copyright';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
+import { withStyles } from '@material-ui/core/styles';
+
+
+
+const CustomSwitch = withStyles({
+  switchBase: {
+    color: '#3f51b5',
+    '&$checked': {
+      color: '#3f51b5',
+    },
+    '&$checked + $track': {
+      backgroundColor: '#313f8c',
+    },
+  },
+  checked: {},
+  track: {},
+})(Switch);
+
 
 export default class Profile extends Component {
     state={
@@ -41,6 +61,14 @@ export default class Profile extends Component {
           
           const {username, firstName, lastName, email, image}=loggedUser;
           this.setState({loggedUser,username, firstName, lastName, email, image}) 
+
+          // scroll so that the element is at the top of the view
+          const tagP = document.getElementById('tagP')
+          const top = tagP.getBoundingClientRect().top + window.pageYOffset
+          window.scrollTo({
+            top, 
+            behavior: 'auto'
+          })
           
         }
     }
@@ -107,6 +135,8 @@ export default class Profile extends Component {
              }
         }
 
+        
+
 
         handleLogout=async()=>{
         await myService.logout()
@@ -115,23 +145,36 @@ export default class Profile extends Component {
 
     render() {
         return (
-            <div className="Profile">
+            <div className="Profile" id="tagP">
                 <img className="topProfileIMG" alt="topProfileIMG" src="https://res.cloudinary.com/jaacker25/image/upload/v1582745626/IOTFARM/profile_xwzc1c.png"></img>
                <div className="faceContainer">
                 <img className="face"  src={this.state.image} alt="face"></img>
                 <input type='file' name="photoURL" id="getFile" style={{display:'none'}} onChange={this.handleFile} />
-                <Fab size="medium" color="primary" aria-label="edit" onClick={this.handleEdit}>
+                <Fab size="small" color="primary" aria-label="edit" onClick={this.handleEdit}>
                 <EditOutlinedIcon />
                 </Fab>
                 </div>
                 <br></br>
-                <h1>Welcome {this.state.username}</h1>
+                <h1 style={{fontSize:'4vw'}}>Welcome {this.state.username}</h1>
+                <section className="ilustrationsProfile">
+                <div>
+                <img alt='createProj' src='https://res.cloudinary.com/jaacker25/image/upload/v1582951813/IOTFARM/undraw_add_content_d1tf_qkiaz3.png'/>
+                <h3>Create Your Owns Projects</h3>
+                </div>
+                <div>
+                <img alt='dashProj' src='https://res.cloudinary.com/jaacker25/image/upload/v1582951813/IOTFARM/undraw_data_xmfy_1_pydpm0.png'/>
+                <h3>Then Visualize The Data In The Dashboard</h3>
+                </div>
+                </section>
+<div style={{border:'1px solid #3f51b5', borderRadius:'20px',padding:'2px 18px'}} >
 
-                <FormControlLabel
-                  control={<Switch checked={this.state.checked} onChange={this.handleChangeBTN} color="primary"/>}
+                <FormControlLabel 
                   label="Edit Profile"
-                  style={{marginTop:'0px',color:'white'}} 
+                  control={<CustomSwitch checked={this.state.checked} onChange={this.handleChangeBTN} color="primary"/>}
+                  style={{marginTop:'0px',color:'gray'}} 
                    />
+
+</div>
                    <br/>
             
                    <article className="articleInfoProfile">
@@ -189,10 +232,19 @@ export default class Profile extends Component {
                        </Grid>
                        </div>
                        <div className="submitFormProfile" >
-                       <p style={{paddingRight:'10px'}} >Click to submit   </p>
-                       <Fab size="small" color='secondary' aria-label="edit" onClick={this.handleEditUser}>
-                         <CheckOutlinedIcon />
-                       </Fab>
+                       
+
+                       <Fab
+          variant="extended"
+          size="small"
+          color="primary"
+          aria-label="add"
+          onClick={this.handleEditUser}
+          
+        >
+          <CheckOutlinedIcon />
+          Submit
+        </Fab>
                        </div>
                        
                        </article>
@@ -201,17 +253,26 @@ export default class Profile extends Component {
                    
                    <br/><br/>
                     <section className="sectionProjectCards">
-                    {console.log(this.state.loggedUser.projects)}
+                   
                     {this.state.loggedUser.projects && this.state.loggedUser.projects.map((proj,index) => 
-                      <ProjectCard key={index} img={this.state.image} pName={proj.pName} location={proj.location} description={proj.description} author={proj.author} date={proj.date} _id={proj._id}/>
+                      <ProjectCard key={index} img={proj.img} pName={proj.pName} location={proj.location} description={proj.description} author={proj.author} date={proj.date} _id={proj._id}/>
                      )}
                     <VoidCard/>
                     </section>
-<footer>
+<section>
 <h4 type="submit" onClick={this.handleLogout} className="btnSumbitLogout">
             Logout <ExitToAppIcon style={{paddingLeft:'10px'}}/>
           </h4>
+</section>
+<footer className="footerProfile">
+
+        <Box color={'#888888'} display={'flex'} alignItems={'center'} mb={1} marginBottom={5}>
+          <CopyrightIcon style={{marginRight: 4, fontSize: 18}} />
+          <span>2020 The Ultimate IoT Smart Farming</span>
+        </Box>
+
 </footer>
+
                 {this.state.alert?<PopFormAlert msg={this.state.alertmsg}/>:null}
             </div>
         )

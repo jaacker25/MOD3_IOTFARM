@@ -73,7 +73,7 @@ export default class Signup extends Component {
             <img className="SignupIMG" alt="backgroundSignup" src="https://res.cloudinary.com/jaacker25/image/upload/v1582689337/IOTFARM/signup_lmkqlj.jpg"></img>
             <section className="SignupForm">
             <div className="SignupFormInt">
-            <Avatar style={{backgroundColor:'#4a9e15'}}>
+            <Avatar style={{backgroundColor:'#3f51b5'}}>
             <PersonAddIcon />
             </Avatar>
             <h1  style={{margin:'10px 0 20px 0'}}>Sign Up</h1>

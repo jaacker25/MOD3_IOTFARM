@@ -53,7 +53,7 @@ export default class Login extends Component {
                 <img className="LoginIMG" alt="backgroundLogin" src="https://res.cloudinary.com/jaacker25/image/upload/v1582689357/IOTFARM/login_kv4ig5.jpg"></img>
                 <section className="LoginForm">
                 <div className="LoginFormInt">
-    <Avatar style={{backgroundColor:'#1a76d2'}}>
+    <Avatar style={{backgroundColor:'#3f51b5'}}>
       <LockOutlinedIcon />
     </Avatar>
     <h1  style={{margin:'10px 0 20px 0'}}>Login</h1>

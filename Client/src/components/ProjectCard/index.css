@@ -1,0 +1,4 @@
+#Avatar:hover{
+    filter:blur(2px);
+    cursor: pointer;
+}

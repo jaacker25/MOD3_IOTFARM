@@ -2,6 +2,94 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    color:white;
-
+    color:gray;
 }
+
+.topFarmIMG{
+    width: 100%;
+    height: 50vh;
+    top:0; 
+    left:0;
+    z-index: -1;
+    
+    align-items: center;
+    object-fit: cover;
+    object-position: center;
+    position: absolute;
+    
+    margin: 0;
+    padding: 0;
+  }
+
+
+  .btnSumbitBack{
+    margin-top: 60px;
+    border-radius: 8px;
+    width: 180px;
+    padding: 8px 0;
+    background-color:#f50057;
+    color: white;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    }
+  
+    .btnSumbitBack:hover{
+  cursor: pointer;
+  background-color: #ab003c; 
+  }
+  
+  .footerFarm{
+    width: 100%;
+    height: 36vh;
+   background-color: #dcdcdc;
+
+   display: flex;
+   justify-content: center;
+   align-items: flex-end;
+   position: relative;
+
+  }
+
+  .FarmBody{
+      margin-top: 50vh;   
+      top: 50vh;
+      width: 95%;
+      height: auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+  }
+
+  .FarmInfoDiv{
+      margin-top: 10px;
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: space-around;
+  }
+
+  .FarmInfoDiv article{
+      width: 500px;
+      height: 309px;
+      border: 2px solid #abee91;
+      border-radius: 50px;
+      margin:25px;
+  }
+
+  .projectInfoImage{
+      width: 100%;
+      height: 100%;
+      border-radius: 50px; 
+      object-fit: cover;
+      border: 2px solid #abee91;
+      
+
+  }
+
+  .FarmInfoDiv h1{
+      color:grey;
+      margin:8px;
+  }

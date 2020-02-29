@@ -27,6 +27,17 @@ const myService = {
   },
   newProj: async (data) => {
     return await service.post("/project/newProject",data)
+  },
+  updateProj: async (data) => {
+    return await service.post("/project/updateProject",data)
+  },
+  updateIconProj: async (data,x) => {
+    console.log('es mi ide')
+    console.log(x)
+    return await service.post(`/project/updateIconProj/${x}`,data)
+  },
+  myProject: async (projectId)=>{
+    return await service.post("/project/myProject",projectId)
   }
 };
 

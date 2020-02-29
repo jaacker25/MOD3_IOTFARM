@@ -9,7 +9,11 @@ const projectSchema = new Schema({
   location:String,
   description:String,
   author:String,
-  date:String
+  date:String,
+  img:{
+    type:String,
+    default:"https://res.cloudinary.com/jaacker25/image/upload/v1582932490/IOTFARM/avatar_npiak7.jpg"
+  }
 },{
 timestamps: true,
 versionKey: false

@@ -1,8 +1,8 @@
 import { useHistory } from "react-router-dom";
 import React from 'react'
 
-const NotFound = () => {
+const R = () => {
     let history = useHistory(); 
-    return (<>{history.push("/")}</>)
+    return (<>{history.push("/Profile")}</>)
 }
-export default NotFound;
+export default R;
