@@ -1,6 +1,6 @@
 import './index.css'
 import React, { Component } from 'react'
-import myService from "../../services"
+import myService from "../../services/User.js"
 import {Link} from 'react-router-dom'
 
 import Avatar from '@material-ui/core/Avatar';

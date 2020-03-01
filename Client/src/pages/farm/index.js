@@ -1,5 +1,6 @@
 import './index.css'
-import myService from "../../services"
+import myService from "../../services/User.js"
+import mySensor from "../../services/Sensor.js"
 import React, { Component } from 'react'
 
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
@@ -11,7 +12,6 @@ export default class Farm extends Component {
     state={
     loggedUser:{},
     myProject:{}
-
     }
 
 
@@ -33,6 +33,15 @@ export default class Farm extends Component {
             this.setState({loggedUser,myProject})   
           })
             
+
+          await mySensor.test()
+          .then((data)=>{
+            console.log(data)
+          })
+          .catch((err)=>{
+            console.log(err)
+          })  
+
            // scroll so that the element is at the top of the view
           const element = document.getElementById('element')
           const top = element.getBoundingClientRect().top + window.pageYOffset

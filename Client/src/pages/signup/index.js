@@ -1,6 +1,6 @@
-import React, { Component, useState } from 'react'
+import React, {Component} from 'react'
 import './index.css'
-import myService from "../../services"
+import myService from "../../services/User.js"
 import {Link} from 'react-router-dom'
 
 import Avatar from '@material-ui/core/Avatar';
@@ -23,7 +23,7 @@ export default class Signup extends Component {
     }
      
     validateEmail=(email)=>{
-      let chr = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      let chr = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
       return chr.test(email);
     }
     

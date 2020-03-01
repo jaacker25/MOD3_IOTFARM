@@ -1,6 +1,6 @@
 import './index.css'
 import React from 'react';
-import myService from "../../services"
+import myService from "../../services/User.js"
 import { useHistory } from "react-router-dom"; //re rendering test 2
 
 import cx from 'clsx';
@@ -118,6 +118,17 @@ const ProjectCard = (props) => {
     setTimeout(
         function() {
           setAlert(false);
+        },
+        5000
+    );
+    setAlert(true);
+    setAlertmsg(text);
+  }
+/*warning
+  const handleAlertTime=(text)=>{
+    setTimeout(
+        function() {
+          setAlert(false);
         }
         .bind(this),
         5000
@@ -125,6 +136,7 @@ const ProjectCard = (props) => {
     setAlert(true);
     setAlertmsg(text);
   }
+*/
 
 
  const handleEdit=()=>{
@@ -148,7 +160,7 @@ const handleFile = e => {
 
   return (
     <>
-    <div style={{margin:'35px 25px',
+    <div style={{
                                                         margin:'35px 25px',
                                                         borderRadius:'25px',
                                                         backgroundColor:'#c2c2c2',

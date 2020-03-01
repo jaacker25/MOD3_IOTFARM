@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useHistory } from "react-router-dom"; //re rendering test 2
-import myService from "../../services"
+import myService from "../../services/User.js"
 
 import { makeStyles } from '@material-ui/styles';
 import Fab from '@material-ui/core/Fab';
@@ -64,7 +64,7 @@ const useStyles = makeStyles(() => ({
     .then((project) => {
      const {data} = project
      const {proj}=data
-     const {pName, location, description, author, _id} = proj
+     const {pName, location, description, author} = proj
      
      setPName(pName)
      setLocation(location)
@@ -98,8 +98,7 @@ const handleAlertTime=(text)=>{
   setTimeout(
       function() {
         setAlert(false);
-      }
-      .bind(this),
+      },
       5000
   );
   setAlert(true);

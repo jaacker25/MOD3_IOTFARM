@@ -10,7 +10,7 @@ function Alert(props) {
 
 export default function PopFormAlert(props) {
 
-  const [open, setOpen] = React.useState(false);
+  const [, setOpen] = React.useState(false);
   //const msg=this.props.msg
   const handleClose = (event, reason) => {
     if (reason === 'clickaway') {

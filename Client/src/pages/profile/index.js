@@ -1,5 +1,5 @@
 import './index.css'
-import myService from "../../services"
+import myService from "../../services/User.js"
 import React, { Component } from 'react'
 
 import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
@@ -102,7 +102,8 @@ export default class Profile extends Component {
       }; 
 
       validateEmail=(email)=>{
-        let chr = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        //let chr = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/; warning
+        let chr = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         return chr.test(email);
       }
       
@@ -150,7 +151,7 @@ export default class Profile extends Component {
                <div className="faceContainer">
                 <img className="face"  src={this.state.image} alt="face"></img>
                 <input type='file' name="photoURL" id="getFile" style={{display:'none'}} onChange={this.handleFile} />
-                <Fab size="small" color="primary" aria-label="edit" onClick={this.handleEdit}>
+                <Fab size="medium" color="primary" aria-label="edit" onClick={this.handleEdit} style={{zIndex:'2'}}>
                 <EditOutlinedIcon />
                 </Fab>
                 </div>
