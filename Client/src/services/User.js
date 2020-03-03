@@ -32,13 +32,23 @@ const myService = {
     return await service.post("/project/updateProject",data)
   },
   updateIconProj: async (data,x) => {
-    console.log('es mi ide')
-    console.log(x)
     return await service.post(`/project/updateIconProj/${x}`,data)
   },
   myProject: async (projectId)=>{
     return await service.post("/project/myProject",projectId)
-  }
+  },
+  deleteProj: async (projectId)=>{
+    return await service.post("/project/deleteProject",projectId)
+  },
+       
+   getAllSensors: async()=>{
+     return await service.get('project/getAllSensors')
+   }, 
+
+   updateSensorProj:async(x,data)=>{
+     return await service.post(`/project/updateSensor/${x}`,data)
+   }
+
 };
 
 export default myService;

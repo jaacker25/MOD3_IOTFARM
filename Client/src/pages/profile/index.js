@@ -63,12 +63,12 @@ export default class Profile extends Component {
           this.setState({loggedUser,username, firstName, lastName, email, image}) 
 
           // scroll so that the element is at the top of the view
-          const tagP = document.getElementById('tagP')
-          const top = tagP.getBoundingClientRect().top + window.pageYOffset
-          window.scrollTo({
-            top, 
-            behavior: 'auto'
-          })
+       //   const tagP = document.getElementById('tagP')
+       //   const top = tagP.getBoundingClientRect().top + window.pageYOffset
+       //   window.scrollTo({
+       //     top, 
+       //     behavior: 'auto'
+       //   })
           
         }
     }

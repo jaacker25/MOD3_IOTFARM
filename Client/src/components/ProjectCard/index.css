@@ -2,3 +2,14 @@
     filter:blur(2px);
     cursor: pointer;
 }
+
+
+.profileDeleteIcon:hover{
+    cursor:pointer;
+    background-color: red;    
+}
+.profileDeleteIcon{
+    border-radius: 50%;
+   margin-left: 10px;
+}
+

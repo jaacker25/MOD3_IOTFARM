@@ -13,7 +13,12 @@ const projectSchema = new Schema({
   img:{
     type:String,
     default:"https://res.cloudinary.com/jaacker25/image/upload/v1582932490/IOTFARM/avatar_npiak7.jpg"
-  }
+  },
+  sensors:[ {
+    type: Number
+}
+]
+  
 },{
 timestamps: true,
 versionKey: false

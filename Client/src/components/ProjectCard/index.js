@@ -15,6 +15,7 @@ import LocationOn from '@material-ui/icons/LocationOn';
 import TodayIcon from '@material-ui/icons/Today';
 import CheckOutlinedIcon from '@material-ui/icons/CheckOutlined';
 import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
+import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import LaunchIcon from '@material-ui/icons/Launch';
 import { useWideCardMediaStyles } from '@mui-treasury/styles/cardMedia/wide';
 import { useFadedShadowStyles } from '@mui-treasury/styles/shadow/faded';
@@ -32,6 +33,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Grid from '@material-ui/core/Grid';
 
 import PopFormAlert from '../../components/SignupAlert/index.js'
+
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -100,6 +102,14 @@ const ProjectCard = (props) => {
     }
    }
 
+   const handleDeleteProjectForm=()=>{
+    const p={_id:props._id}
+     myService.deleteProj(p)
+     .then((status)=>{
+      setOpen(false);
+      history.push('/R');
+     })
+   }
    
   const handlePName=({target:{_,value}})=>{
     setPName(value)
@@ -142,6 +152,7 @@ const ProjectCard = (props) => {
  const handleEdit=()=>{
   document.getElementById('passValue').value=props._id;
   document.getElementById('getFileIcon').click()
+
 }
 
 const handleFile = e => {
@@ -166,11 +177,12 @@ const handleFile = e => {
                                                         backgroundColor:'#c2c2c2',
                                                         border:'1px solid #abee91'
                                                         }}>
-    <Card elevation={0} className={styles.root} style={{
+    <Card elevation={0} className={styles.root} className="ProfileCardProjects" style={{
                                                         width:'350px', 
                                                         height:'428px',
                                                         borderRadius:'25px',
-                                                        boxShadow:' 0px 0px 18px 1px rgba(0,0,0,0.44)' }}>
+                                                        boxShadow:' 0px 0px 18px 1px rgba(0,0,0,0.44)' }}
+                                                        >
       <CardMedia
         classes={mediaStyles}
         image={
@@ -181,6 +193,8 @@ const handleFile = e => {
       <CardContent className={cx(shadowStyles.root, styles.content)}>
         <IconButton className={styles.favorite}>
           <EditOutlinedIcon style={{color:'#3f51b5'}} onClick={handleClickOpen} />
+
+
         </IconButton>
         <h3 className={styles.title}>{props.pName}</h3>
         <br/>
@@ -291,7 +305,12 @@ const handleFile = e => {
             
           </Grid>
         </DialogContent>
-        <DialogActions style={{justifyContent:'flex-end',marginRight:'18px',marginBottom:'18px'}}>
+        <DialogActions style={{justifyContent:'space-between',marginRight:'18px',marginBottom:'18px'}}>
+       
+           
+          <DeleteOutlineIcon className="profileDeleteIcon" color="secondary"  style={{ fontSize: 18 }} onClick={handleDeleteProjectForm} />
+          
+   
         <Fab
           variant="extended"
           size="small"

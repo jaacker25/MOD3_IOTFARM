@@ -93,3 +93,11 @@
       color:grey;
       margin:8px;
   }
+
+  .FarmAddSensor:hover{
+      background-color:black;
+      border-radius: 50%;
+      color: white;
+      font-size: 2rem;
+      cursor: pointer;
+  }

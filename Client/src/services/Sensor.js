@@ -1,12 +1,13 @@
 import axios from 'axios';
-const baseURL = 'https://api.thingspeak.com/channels/1006090/feeds.json?api_key=XF3MTAYRZFJ9JULP'
+let baseURL = 'http://localhost:3000';
 
-const sensor = axios.create({baseURL});
+const sensor =  axios.create({ withCredentials: true, baseURL });
 
 const mySensor = {
-    test: async () => {
-        return await sensor.get();
-    }
+    test: async (SensorID) => {
+        return await axios.create({baseURL:`https://api.thingspeak.com/channels/${SensorID}/feeds.json?api_key=XF3MTAYRZFJ9JULP`}).get();
+    },
+
 };
 
 export default mySensor;

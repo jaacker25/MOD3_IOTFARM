@@ -2,6 +2,7 @@ const router = require('express').Router()
 const Project = require('../models/Project')
 const User = require('../models/User');
 const uploadConfig = require("../config/cloudinary");
+const AdmSensor = require('../models/AdmSensors')
 
 router.post('/newProject', async(req,res,next)=>{
  const {pName,location,author,description}=req.body
@@ -27,11 +28,25 @@ router.post('/updateProject',async(req,res,next)=>{
   .catch( err => res.status(500).json({err}))
 })
 
-router.post('/updateIconProj/:id',uploadConfig.single("photoURL"),async(req,res,next)=>{
+router.post('/updateIconProj/:id',uploadConfig.single("photoURL"),async(
+  req,res,next)=>{
   const {id}=req.params
   const { secure_url } = req.file
   const proj = await Project.findByIdAndUpdate({_id: id},{img:secure_url},{new:true})
   res.status(200).json({ proj })
+})
+
+router.post('/updateSensor/:id',async(req,res,next)=>{
+  const {id}=req.params
+  let [sensorID]  =Object.keys(req.body)
+  sensorID=parseInt(sensorID)
+  console.log(id)
+  console.log(sensorID)
+  let pro = await Project.findById(id)
+             await pro.sensors.push(sensorID)
+             await pro.save()
+           
+  res.status(200).json({ pro })
 })
 
 router.post("/myProject", async (req,res,next)=>{
@@ -41,10 +56,20 @@ router.post("/myProject", async (req,res,next)=>{
  .catch((err) => res.status(500).json({ err }));
 })
 
-//router.get('/delete/:id', isAuthenticated, deleteBook) 
+router.post("/deleteProject", async (req,res,next)=>{
+  const {_id}=req.body
+  await Project.findByIdAndDelete(_id)
+ .then((p) => res.status(200).json({ p }))
+ .catch((err) => res.status(500).json({ err }));
+})
 
 
-module.exports = router
+router.get("/getAllSensors",async(req,res,next)=>{
+await AdmSensor.find()
+  .then((dataS) => res.status(200).json({ dataS }))
+  .catch((err) => res.status(500).json({ err }));
+})
+
 
 router.post("/upload",uploadConfig.single("photoURL"),async(req,res,next)=>{
   const { secure_url } = req.file
@@ -55,3 +80,6 @@ router.post("/upload",uploadConfig.single("photoURL"),async(req,res,next)=>{
   )
   res.status(200).json({ user })
 })
+
+
+module.exports = router
