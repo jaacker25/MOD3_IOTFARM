@@ -24,7 +24,7 @@
 
   .btnSumbitBack{
     margin-top: 60px;
-    border-radius: 8px;
+    border-radius: 20px;
     width: 180px;
     padding: 8px 0;
     background-color:#f50057;
@@ -101,3 +101,39 @@
       font-size: 2rem;
       cursor: pointer;
   }
+
+
+  .mapContainer {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    }
+
+    .farmSensorIcon{
+        color:rgb(29, 202, 29); 
+        background-color:rgb(48, 34, 34);
+        border-radius: 50%;
+        padding:5px;
+        font-size: 1rem;
+
+    }
+    .farmSensorIcon:hover{
+        cursor: pointer;
+        color:white;
+        font-size: 2rem;
+        
+    }
+
+    .PopupMap p{
+        margin:0;
+    }
+
+    .overlays, .mapboxgl-canvas{
+        border-radius: 50px;
+    }
+
+    .mapboxgl-ctrl-logo{
+      display:none;
+    }

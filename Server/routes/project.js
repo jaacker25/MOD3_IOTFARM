@@ -38,12 +38,8 @@ router.post('/updateIconProj/:id',uploadConfig.single("photoURL"),async(
 
 router.post('/updateSensor/:id',async(req,res,next)=>{
   const {id}=req.params
-  let [sensorID]  =Object.keys(req.body)
-  sensorID=parseInt(sensorID)
-  console.log(id)
-  console.log(sensorID)
   let pro = await Project.findById(id)
-             await pro.sensors.push(sensorID)
+             await pro.sensors.push(req.body)
              await pro.save()
            
   res.status(200).json({ pro })
@@ -69,6 +65,8 @@ await AdmSensor.find()
   .then((dataS) => res.status(200).json({ dataS }))
   .catch((err) => res.status(500).json({ err }));
 })
+
+
 
 
 router.post("/upload",uploadConfig.single("photoURL"),async(req,res,next)=>{

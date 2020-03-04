@@ -3,7 +3,9 @@ import myService from "../../services/User.js"
 import mySensor from "../../services/Sensor.js"
 import React, { Component } from 'react'
 
-import Map from '../../components/mapbox/index.js'
+import VerticalTabs from '../../components/panel/index.js'
+import MapGL,{Marker, Popup} from 'react-map-gl'
+import SettingsInputAntennaIcon from '@material-ui/icons/SettingsInputAntenna';
 
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import CopyrightIcon from '@material-ui/icons/Copyright';
@@ -19,7 +21,7 @@ import TextField from '@material-ui/core/TextField';
 import TodayOutlinedIcon from '@material-ui/icons/TodayOutlined';
 import AssignmentOutlinedIcon from '@material-ui/icons/AssignmentOutlined';
 import SettingsInputAntennaOutlinedIcon from '@material-ui/icons/SettingsInputAntennaOutlined';
-
+const TOKEN='pk.eyJ1IjoiamFhY2tlcjI1IiwiYSI6ImNrN2F0dTJhMDAzczYzZXFoYjZ1b254czIifQ.BKaLkPb4rQN6hiy3kTXvmQ'
 
 export default class Farm extends Component {
     state={
@@ -27,7 +29,19 @@ export default class Farm extends Component {
     myProject:{},
     alert:false,
     alertmsg:'',
-    sensorCode:''
+    sensorCode:'',
+    viewport: {
+      width: "90vw",
+      height: "50vh",
+      latitude: 19.42,
+      longitude: -99.18,
+      minZoom: 8,
+      maxZoom: 18,
+      zoom:14,
+      position:"relative"
+        },
+        popupInfo: null,
+    arrDataPos:[]
     }
 
 
@@ -45,33 +59,70 @@ export default class Farm extends Component {
           const alertmsg='';
           const loggedUser=user;            
           const projectId=this.props.match.params.projectId;
+          const myArrSensors=[];
           await myService.myProject({projectId})
           .then((p)=>{
             const myProject= p.data.p
-          
-                     
-            this.setState({loggedUser,myProject,alert,alertmsg})   
-            
+            this.setState({loggedUser,myProject,alert,alertmsg})          
           })
             
+       //   console.log("busco myproj")
+       //   console.log(this.state.myProject.sensors)
+          const mySensorList=this.state.myProject.sensors
 
+          const arrDataPos=[]
+
+          mySensorList.forEach( async (value)=>{
+           await mySensor.myPos(value.sensorID,value.sensorAPI)
+           .then((d)=>{
+        //     console.log('esto regresa mypos')
+        //     console.log(d.data.feeds[9])
+             arrDataPos.push(d.data.feeds[9])
+             
+           }) 
+
+          })
+          this.setState({arrDataPos})
           await mySensor.test(1006090)
-          .then((data)=>{
-            console.log(data)
-          })
-          .catch((err)=>{
-            console.log(err)
-          })  
-
+         
            // scroll so that the element is at the top of the view
-          const element = document.getElementById('element')
-          const top = element.getBoundingClientRect().top + window.pageYOffset
-          window.scrollTo({
-            top, 
-            behavior: 'auto'
-          })
+         // const element = document.getElementById('element')
+       //   const top = element.getBoundingClientRect().top + window.pageYOffset
+       //   window.scrollTo({
+        //    top, 
+        //    behavior: 'auto'
+        //  })
         }
     }
+
+
+//MAP
+_updateViewport = viewport => {
+  this.setState({viewport});
+ };
+
+ _onClickMarker=params=> e=>{
+  //   console.log('hola')
+  //   console.log(params)
+     const {longitude,latitude,num}=params
+   this.setState({popupInfo: {longitude,latitude,num}});
+ };
+
+ _renderPopup() {
+   const {popupInfo} = this.state;
+   return (
+     popupInfo && (
+       <Popup className="PopupMap" tipSize={10} anchor="top" longitude={popupInfo.longitude}
+         latitude={popupInfo.latitude} closeOnClick={true} onClose={() => this.setState({popupInfo: null})}>
+       <p><b>Sensor</b> #{popupInfo.num+1}</p>
+       <p><b>Longitude=</b> {popupInfo.longitude}</p>
+       <p><b>Latitude=</b> {popupInfo.latitude}</p>
+       </Popup>
+     )
+   );
+ }
+//MAP
+
 
     handleAlertTime=(text)=>{
       setTimeout(
@@ -124,32 +175,56 @@ handleSubmitBarcode=async()=>{
 
 if(this.state.sensorCode===''){
   this.handleAlertTime('Please complete all fields!');
+ // await myService.getAllSensors()
+//  .then((pro)=>{
+
+//const arrAvailable=pro.data.dataS["0"].AdmSensors;
+//console.log(arrAvailable)
+//  }
+//  )
    }else{
     await myService.getAllSensors()
     .then(async(d)=>{
       const arrAvailable=d.data.dataS["0"].AdmSensors;
-      const indexS=arrAvailable.indexOf(parseInt(this.state.sensorCode));
- 
+      const newArr=[];
+      arrAvailable.forEach(value=>{
+        newArr.push(value.sensorID)
+      })
+      let indexS=-1;
+      newArr.forEach((value,index)=>{
+        if(value===this.state.sensorCode){
+          indexS=index;
+        }
+      })
       if(indexS<0){
-        this.handleAlertTime('Please input a valid Code');
+        this.handleAlertTime('Please Input a Valid Code');
       }else{
      const projID=this.state.myProject._id
-     const sensorID=this.state.sensorCode
+     const sensorToAdd=arrAvailable[indexS]
      this.setState({sensorCode:'Searching...'})
-        await myService.updateSensorProj(projID,sensorID)
+ // console.log('este es el id del proj')
+ // console.log(projID)
+ // console.log('esta es la info obj del sensor to add')
+ // console.log(sensorToAdd)    
+     
+
+        await myService.updateSensorProj(projID,sensorToAdd)
         .then((pro)=>{
           this.setState({sensorCode:'The process is done!'})
           const proj = pro.data.pro
           this.setState({myProject:proj})
         })
         .catch((err)=>{
-          console.log(err)
+       //   console.log(err)
         })
+      
+     
+      
       }
       
     })
     .catch((err)=>{
-      console.log(err)
+   //   console.log(err)
     })  
    }
 
@@ -159,6 +234,7 @@ if(this.state.sensorCode===''){
 
 
     render() {
+      const {viewport} = this.state;
         return (
             <div className="Farm" id="element">
             <img className="topFarmIMG" alt="topProfileIMG" src="https://res.cloudinary.com/jaacker25/image/upload/v1582955688/IOTFARM/Screenshot_from_2020-02-28_13-55-09_trboda.png"></img>
@@ -169,7 +245,7 @@ if(this.state.sensorCode===''){
 <div className="FarmInfoDiv">
 <article style={{display:'flex',alignItems:'center',justifyContent:'center'}}>
 <div style={{width:'80%',height:'90%'}}>
-<h1 style={{textAlign:'center', color:'rgb(80, 80, 80)'}}><b>Project Details:</b></h1>
+<h1 style={{textAlign:'left', color:'rgb(80, 80, 80)'}}><b>Project Details:</b></h1>
 <h1><FolderOpenOutlinedIcon/>&nbsp;&nbsp;{this.state.myProject.pName}</h1>
 <h1><AssignmentIndOutlinedIcon/>&nbsp;&nbsp;{this.state.myProject.author}</h1>
 <h1><LocationOnOutlinedIcon/>&nbsp;&nbsp;{this.state.myProject.location}</h1>
@@ -214,9 +290,30 @@ if(this.state.sensorCode===''){
 </div>
 
 <div style={{width:'90vw',height:'50vh',margin: '50px 0'}}>
-<Map/ >
+
+<MapGL {...viewport} mapboxApiAccessToken={TOKEN} mapStyle="mapbox://styles/mapbox/outdoors-v11" onViewportChange={this._updateViewport}>
+      <div style={{position:'absolute',top:'0',left:'0',padding:'10px'}}>
+      </div>
+
+{this.state.arrDataPos&&this.state.arrDataPos.map((sens,index)=>
+
+      <Marker key={index}  longitude={parseFloat(sens.field7)} latitude={parseFloat(sens.field6)}> 
+      <SettingsInputAntennaIcon className="farmSensorIcon"  onClick={this._onClickMarker({longitude:parseFloat(sens.field7),latitude:parseFloat(sens.field6),num:index})}/>
+      </Marker>
+
+      
+)}
+{this._renderPopup()}
+      </MapGL>
+
+
+
+
 </div>
 
+<div>
+<VerticalTabs theSensors={this.state.myProject.sensors}/>
+</div>
 
 
 

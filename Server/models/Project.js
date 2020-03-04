@@ -15,7 +15,7 @@ const projectSchema = new Schema({
     default:"https://res.cloudinary.com/jaacker25/image/upload/v1582932490/IOTFARM/avatar_npiak7.jpg"
   },
   sensors:[ {
-    type: Number
+    type: Object
 }
 ]
   
