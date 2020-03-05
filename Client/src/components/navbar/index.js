@@ -79,7 +79,7 @@ export default function Nav() {
   return (
     <>
     <div className="divSupNav">
-      <Button className="hamMenu" onClick={toggleDrawer('right', true)}><img style={{width:'50px'}} alt="menu" src="https://cdn4.iconfinder.com/data/icons/circles-1/32/364-01-512.png"></img></Button>
+      <Button className="hamMenu" onClick={toggleDrawer('right', true)}><img style={{width:'60px'}} alt="menu" src="https://res.cloudinary.com/jaacker25/image/upload/v1583409862/IOTFARM/hamhamhamhamborguesa_adgcqq.png"></img></Button>
       </div>
       <Drawer anchor="right" open={state.right} onClose={toggleDrawer('right', false)}>
         {sideList('right')}

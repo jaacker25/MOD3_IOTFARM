@@ -23,7 +23,7 @@ export default class About extends Component {
 <h1>TEAM</h1>
 
 <h3 style={{textAlign:'center'}} >Do not hesitate to contact us for any enquiry, order or comment you may have</h3>
-<img className="myPhotoLogo" alt="photo" src="https://res.cloudinary.com/jaacker25/image/upload/v1583404742/IOTFARM/0_n5kuxa.jpg"></img>
+<img className="myPhotoLogo" alt="photoID" src="https://res.cloudinary.com/jaacker25/image/upload/v1583404742/IOTFARM/0_n5kuxa.jpg"></img>
 <p>Jorge Aguilar</p>
 <p style={{margin:'0'}}>President and CEO of the Company</p>
 </div>
