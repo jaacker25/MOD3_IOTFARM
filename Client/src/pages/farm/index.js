@@ -279,7 +279,7 @@ handleChange=({target:{name,value}})=>{
 
 
           <footer className="footerFarm">
-
+          <img style={{width:'50px',opacity:'0.5'}}  className="myLogoFoot" alt="logo" src="https://res.cloudinary.com/jaacker25/image/upload/v1583402902/IOTFARM/logojaac_pobhoc.png"></img>
         <Box color={'#888888'} display={'flex'} alignItems={'center'} mb={1} marginBottom={5}>
           <CopyrightIcon style={{marginRight: 4, fontSize: 18}} />
           <span>2020 The Ultimate IoT Smart Farming</span>

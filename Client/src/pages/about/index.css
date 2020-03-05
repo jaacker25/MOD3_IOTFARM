@@ -1,0 +1,62 @@
+
+.About{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color:gray;
+}
+
+.topAboutIMG{
+    width: 100%;
+    height: 50vh;
+    top:0; 
+    left:0;
+    z-index: -1;
+    
+    align-items: center;
+    object-fit: cover;
+    object-position: center;
+    position: absolute;
+    
+    margin: 0;
+    padding: 0;
+  }
+
+  .AboutBody{
+    padding-top: 50vh;   
+    margin-bottom: 0px;
+    margin-top: 0;
+    position: static;
+    top: 50vh;
+    bottom: 0;
+    width: 95%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.footerAbout{
+    width: 100%;
+    height: 36vh;
+   background-color: #dcdcdc;
+
+   display: flex;
+   justify-content: flex-end;
+   align-items: center;
+   position: relative;
+   flex-direction: column;
+   bottom: 0;
+
+  }
+
+  .myPhotoLogo{
+      border-radius: 50%;
+      box-shadow: 0px 0px 25px 0px rgba(0,0,0,0.75);
+  }
+
+  .myPhotoLogo:hover{
+filter: blur(2px);  
+}

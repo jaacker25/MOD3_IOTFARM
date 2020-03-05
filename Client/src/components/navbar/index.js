@@ -70,9 +70,9 @@ export default function Nav() {
         ))}
       </List>
     
-      <div className="divNavLogoImg">
-      <img className="NavLogoImg" alt="logo" src="https://res.cloudinary.com/jaacker25/image/upload/v1582756298/IOTFARM/logo-removebg-preview_krq4tj.png"></img>
-      </div>
+  {/*    <div className="divNavLogoImg">
+      <img className="NavLogoImg" alt="logo" src="https://res.cloudinary.com/jaacker25/image/upload/v1583402902/IOTFARM/logojaac_pobhoc.png"></img>
+      </div>*/}
     </div>
   );
 

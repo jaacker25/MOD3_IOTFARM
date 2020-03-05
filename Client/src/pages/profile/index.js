@@ -147,7 +147,7 @@ export default class Profile extends Component {
     render() {
         return (
             <div className="Profile" id="tagP">
-                <img className="topProfileIMG" alt="topProfileIMG" src="https://res.cloudinary.com/jaacker25/image/upload/v1582745626/IOTFARM/profile_xwzc1c.png"></img>
+                <img className="topProfileIMG" alt="topProfileIMG" src="https://res.cloudinary.com/jaacker25/image/upload/v1583406663/IOTFARM/profile_bbrawn.png"></img>
                <div className="faceContainer">
                 <img className="face"  src={this.state.image} alt="face"></img>
                 <input type='file' name="photoURL" id="getFile" style={{display:'none'}} onChange={this.handleFile} />
@@ -266,7 +266,7 @@ export default class Profile extends Component {
           </h4>
 </section>
 <footer className="footerProfile">
-
+<img style={{width:'50px',opacity:'0.5'}}  className="myLogoFoot" alt="logo" src="https://res.cloudinary.com/jaacker25/image/upload/v1583402902/IOTFARM/logojaac_pobhoc.png"></img>
         <Box color={'#888888'} display={'flex'} alignItems={'center'} mb={1} marginBottom={5}>
           <CopyrightIcon style={{marginRight: 4, fontSize: 18}} />
           <span>2020 The Ultimate IoT Smart Farming</span>
