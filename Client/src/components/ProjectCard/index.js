@@ -1,6 +1,6 @@
 import './index.css'
 import React from 'react';
-import myService from "../../services/User.js"
+import _myProject from "../../services/Project.js"
 import { useHistory } from "react-router-dom"; //re rendering test 2
 
 import cx from 'clsx';
@@ -10,7 +10,6 @@ import Card from '@material-ui/core/Card';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
-import IconButton from '@material-ui/core/IconButton';
 import LocationOn from '@material-ui/icons/LocationOn';
 import TodayIcon from '@material-ui/icons/Today';
 import CheckOutlinedIcon from '@material-ui/icons/CheckOutlined';
@@ -94,7 +93,7 @@ const ProjectCard = (props) => {
      handleAlertTime('Please complete all fields!');
     }else{
      const p={pName,location,author,description,_id:props._id}
-      myService.updateProj(p)
+     _myProject.updateProj(p)
       .then((project) => {
       setOpen(false);
       history.push('/R');
@@ -104,7 +103,7 @@ const ProjectCard = (props) => {
 
    const handleDeleteProjectForm=()=>{
     const p={_id:props._id}
-     myService.deleteProj(p)
+    _myProject.deleteProj(p)
      .then((status)=>{
       setOpen(false);
       history.push('/R');
@@ -134,32 +133,17 @@ const ProjectCard = (props) => {
     setAlert(true);
     setAlertmsg(text);
   }
-/*warning
-  const handleAlertTime=(text)=>{
-    setTimeout(
-        function() {
-          setAlert(false);
-        }
-        .bind(this),
-        5000
-    );
-    setAlert(true);
-    setAlertmsg(text);
-  }
-*/
-
 
  const handleEdit=()=>{
   document.getElementById('passValue').value=props._id;
   document.getElementById('getFileIcon').click()
-
 }
 
 const handleFile = e => {
     const formData = new FormData();
     formData.append("photoURL", e.target.files[0]);
     const x= document.getElementById('passValue').value
-    myService.updateIconProj(formData,x)
+    _myProject.updateIconProj(formData,x)
       .then(( {data:{proj}} ) => {
         history.push('/R');
       })
@@ -177,7 +161,7 @@ const handleFile = e => {
                                                         backgroundColor:'#c2c2c2',
                                                         border:'1px solid #abee91'
                                                         }}>
-    <Card elevation={0} className={styles.root} className="ProfileCardProjects" style={{
+    <Card elevation={0} className={styles.root} style={{
                                                         width:'350px', 
                                                         height:'428px',
                                                         borderRadius:'25px',
@@ -191,12 +175,23 @@ const handleFile = e => {
         style={{borderRadius:'25px',filter:'blur(1px)'}}
       />
       <CardContent className={cx(shadowStyles.root, styles.content)}>
-        <IconButton className={styles.favorite}>
-          <EditOutlinedIcon style={{color:'#3f51b5'}} onClick={handleClickOpen} />
 
-
-        </IconButton>
+        
+        
+        <div style={{display:'flex',justifyContent:'space-between', flexDirection:'row'}}>
         <h3 className={styles.title}>{props.pName}</h3>
+        <Fab style={{textAlign:'center',padding:'0'}}
+          variant="extended"
+          size="small"
+          color="primary"
+          aria-label="add"
+          onClick={handleClickOpen} 
+          >
+          <EditOutlinedIcon style={{color:'white',padding:'0'}} />
+        </Fab>
+        </div>
+        
+
         <br/>
         <Box color={'grey.500'} display={'flex'} alignItems={'center'} mb={1}>
           <LocationOn className={styles.locationIcon} />
@@ -222,7 +217,7 @@ const handleFile = e => {
             className={gutterStyles.parent}
           >
             <p id="passValue" style={{display:'none'}}></p>
-            <input projID={description} type='file' name="photoURL" id="getFileIcon" style={{display:'none'}} onChange={handleFile} />
+            <input type='file' name="photoURL" id="getFileIcon" style={{display:'none'}} onChange={handleFile} />
            <Avatar src={props.img} className={styles.avatar} id="Avatar" onClick={handleEdit}/> 
       <Box>
       <h3 className={styles.heading} style={{margin:'0'}}>{props.author}</h3>
@@ -232,13 +227,18 @@ const handleFile = e => {
        </Box>
           </Box>
 
-          <Link to={`/Farm/${props._id}`}>
-          <IconButton size={'large'}>
-            <LaunchIcon
-            fontSize="large"
-             />
-          </IconButton>
+
+          <Fab style={{textAlign:'center',padding:'0'}}
+          variant="extended"
+          size="small"
+          color="secondary"
+          aria-label="add"
+          >
+          <Link to={`/Farm/${props._id}`} style={{display:'flex',justifyContent:'center'}}>
+          <LaunchIcon style={{color:'white',padding:'0'}} />
           </Link>
+        </Fab>
+
         </Box>
       </CardContent>
     </Card>
@@ -299,7 +299,7 @@ const handleFile = e => {
               />
               <p 
               style={{color:'gray',fontSize:'0.75rem',margin:'0'}}
-              >Description must be 115 characters max.</p>
+              >Description recomended be 115 characters max.</p>
 
             </Grid>
             

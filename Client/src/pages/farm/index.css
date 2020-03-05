@@ -132,6 +132,7 @@
 
     .overlays, .mapboxgl-canvas{
         border-radius: 50px;
+        border: 2px solid #abee91;
     }
 
     .mapboxgl-ctrl-logo{

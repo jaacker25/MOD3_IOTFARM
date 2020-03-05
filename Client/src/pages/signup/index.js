@@ -28,7 +28,7 @@ export default class Signup extends Component {
     }
     
     validatePassword=(psw)=>{
-      let chr=  /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{3,15}$/;
+      let chr=  /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,15}$/;
       return psw.match(chr); 
     }
 
@@ -149,7 +149,7 @@ export default class Signup extends Component {
               />
               <p 
               style={{color:'gray',fontSize:'0.75rem',margin:'0'}}
-              >Password must be 3 to 15 characters, at least one numeric digit and a special character.</p>
+              >Password must be 6 to 15 characters, at least one numeric digit and a special character.</p>
               <p 
               style={{color:'gray',fontSize:'0.75rem', margin:'0'}}
               >Allow ! @ # $ % ^ & *</p>

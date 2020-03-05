@@ -1,5 +1,6 @@
 import './index.css'
 import myService from "../../services/User.js"
+import _myProject from "../../services/Project.js"
 import mySensor from "../../services/Sensor.js"
 import React, { Component } from 'react'
 
@@ -21,7 +22,7 @@ import TextField from '@material-ui/core/TextField';
 import TodayOutlinedIcon from '@material-ui/icons/TodayOutlined';
 import AssignmentOutlinedIcon from '@material-ui/icons/AssignmentOutlined';
 import SettingsInputAntennaOutlinedIcon from '@material-ui/icons/SettingsInputAntennaOutlined';
-const TOKEN='pk.eyJ1IjoiamFhY2tlcjI1IiwiYSI6ImNrN2F0dTJhMDAzczYzZXFoYjZ1b254czIifQ.BKaLkPb4rQN6hiy3kTXvmQ'
+const TOKEN=process.env.REACT_APP_MAPBOX_ACCESS_TOKEN
 
 export default class Farm extends Component {
     state={
@@ -45,13 +46,10 @@ export default class Farm extends Component {
     }
 
 
-   
-    
-    
-
-
-    componentDidMount = async ()=>{
-        const res = await myService.logged().catch( ()=> this.props.history.push("/Login"))
+    componentDidMount=async()=>{
+      try{
+        var res = await myService.logged()
+      }catch(err){this.props.history.push("/Login")}
         if( res && res.data){
           const {data}=res;
           const {user}=data;
@@ -59,56 +57,46 @@ export default class Farm extends Component {
           const alertmsg='';
           const loggedUser=user;            
           const projectId=this.props.match.params.projectId;
-          const myArrSensors=[];
-          await myService.myProject({projectId})
-          .then((p)=>{
-            const myProject= p.data.p
-            this.setState({loggedUser,myProject,alert,alertmsg})          
-          })
-            
-       //   console.log("busco myproj")
-       //   console.log(this.state.myProject.sensors)
+        
+          const p=await _myProject.myProject({projectId})
+          const myProject= p.data.p
+          this.setState({loggedUser,myProject,alert,alertmsg})  
+
           const mySensorList=this.state.myProject.sensors
-
           const arrDataPos=[]
-
           mySensorList.forEach( async (value)=>{
-           await mySensor.myPos(value.sensorID,value.sensorAPI)
-           .then((d)=>{
-        //     console.log('esto regresa mypos')
-        //     console.log(d.data.feeds[9])
-             arrDataPos.push(d.data.feeds[9])
-             
-           }) 
-
-          })
+          const d= await mySensor.myPos(value.sensorID,value.sensorAPI)
+          arrDataPos.push(d.data.feeds[9]) 
+           })
           this.setState({arrDataPos})
-          await mySensor.test(1006090)
-         
-           // scroll so that the element is at the top of the view
-         // const element = document.getElementById('element')
-       //   const top = element.getBoundingClientRect().top + window.pageYOffset
-       //   window.scrollTo({
-        //    top, 
-        //    behavior: 'auto'
-        //  })
+        
+         // scroll to top of the view
+         const element = document.getElementById('element')
+         const top = element.getBoundingClientRect().top + window.pageYOffset
+         window.scrollTo({
+         top, 
+         behavior: 'auto'
+         })
         }
+        this.interval=setInterval(this.RefreshData,2000);
+    }
+
+    componentWillUnmount=()=>{
+      clearInterval(this.interval);
     }
 
 
-//MAP
+//----------------------------------------------------------------------------------MAP
 _updateViewport = viewport => {
   this.setState({viewport});
  };
 
  _onClickMarker=params=> e=>{
-  //   console.log('hola')
-  //   console.log(params)
-     const {longitude,latitude,num}=params
+   const {longitude,latitude,num}=params
    this.setState({popupInfo: {longitude,latitude,num}});
  };
 
- _renderPopup() {
+ _renderPopup=()=>{
    const {popupInfo} = this.state;
    return (
      popupInfo && (
@@ -121,128 +109,104 @@ _updateViewport = viewport => {
      )
    );
  }
-//MAP
 
+//----------------------------------------------------------------------------Function just refresh the page
+    RefreshData=()=>{
+      if(this.state.alertmsg==='nothing to do, just to refresh the page'||!this.state.alertmsg){
+       this.setState({alertmsg:'nothing to do, just to refresh the page'})
+      }
+    }
 
+ //------------------------------------------------------------------------------Bar Code
+handleSubmitBarcode=async()=>{
+  if(this.state.sensorCode===''){
+    this.handleAlertTime('Please complete all fields!');
+     }else{
+      try{
+        const d= await _myProject.getAllSensors()
+        const arrAvailable=d.data.dataS["0"].AdmSensors;
+        const newArr=[];
+        arrAvailable.forEach(value=>{
+          newArr.push(value.sensorID)
+        })
+        let indexS=-1;
+        newArr.forEach((value,index)=>{
+          if(value===this.state.sensorCode){
+            indexS=index;
+          }
+        })
+        if(indexS<0){
+          this.handleAlertTime('Please Input a Valid Code');
+        }else{
+       const projID=this.state.myProject._id
+       const sensorToAdd=arrAvailable[indexS]
+       this.setState({sensorCode:'Searching...'})
+       try{
+            const pro = await _myProject.updateSensorProj(projID,sensorToAdd)
+            this.setState({sensorCode:'The process is done!'})
+            const proj = pro.data.pro
+            this.setState({myProject:proj})
+          }
+          catch(err){
+            this.handleAlertTime('An unexpected error occurred. Please try again later');
+          }
+        }
+      }
+      catch(err){
+        this.handleAlertTime('An unexpected error occurred. Please try again later');
+      } 
+     }
+    }
+  
+//-----------------------------------------------------------------------------Upload Photo
+
+handleEdit=()=>{
+   document.getElementById('getFileIconFarm').click()
+ }
+
+ handleFile = async(e) => {
+   const formData = new FormData();
+   formData.append("photoURL", e.target.files[0]);
+   const x= this.state.myProject._id;
+   try{
+    const res=await _myProject.updateIconProj(formData,x)
+    const {data:{proj}}=res
+    this.setState({myProject:proj})
+     }
+     catch(err){
+       this.handleAlertTime('Unsupported file type!');
+     }
+ }
+
+//-------------------------------------------------------------------------Alert Box
     handleAlertTime=(text)=>{
-      setTimeout(
-          ()=> {
+      setTimeout(()=> {
             this.setState({alert:false})
-          },
-          5000
-      );
+            this.setState({alertmsg:null})
+            },5000);
       this.setState({alert:true})
       this.setState({alertmsg:text})
-      
     }
-
-
-    handleEdit=()=>{
-     // document.getElementById('passValue').value=this.state.myProject.pName;
-      document.getElementById('getFileIconFarm').click()
-    
-    }
-
-    handleFile = e => {
-      const formData = new FormData();
-      formData.append("photoURL", e.target.files[0]);
-      const x= this.state.myProject._id;
-      myService.updateIconProj(formData,x)
-        .then(( {data:{proj}} ) => {
-          
-         const {img}=proj;
-         // const {user}=data;
-       this.setState({myProject:proj})
-
-        })
-        .catch(err => {
-          this.handleAlertTime('Unsupported file type!');
-        });
-    }; 
-
-
+//------------------------------------------------------------------------Back button
 handleReturn=()=>{
     this.props.history.push("/Profile")
   }
-
-
-
-  handleChange=({target:{name,value}})=>{
+//------------------------------------------------------------------------Input variables  
+handleChange=({target:{name,value}})=>{
     this.setState({[name]:value})
-}
+    }
 
-handleSubmitBarcode=async()=>{
-
-if(this.state.sensorCode===''){
-  this.handleAlertTime('Please complete all fields!');
- // await myService.getAllSensors()
-//  .then((pro)=>{
-
-//const arrAvailable=pro.data.dataS["0"].AdmSensors;
-//console.log(arrAvailable)
-//  }
-//  )
-   }else{
-    await myService.getAllSensors()
-    .then(async(d)=>{
-      const arrAvailable=d.data.dataS["0"].AdmSensors;
-      const newArr=[];
-      arrAvailable.forEach(value=>{
-        newArr.push(value.sensorID)
-      })
-      let indexS=-1;
-      newArr.forEach((value,index)=>{
-        if(value===this.state.sensorCode){
-          indexS=index;
-        }
-      })
-      if(indexS<0){
-        this.handleAlertTime('Please Input a Valid Code');
-      }else{
-     const projID=this.state.myProject._id
-     const sensorToAdd=arrAvailable[indexS]
-     this.setState({sensorCode:'Searching...'})
- // console.log('este es el id del proj')
- // console.log(projID)
- // console.log('esta es la info obj del sensor to add')
- // console.log(sensorToAdd)    
-     
-
-        await myService.updateSensorProj(projID,sensorToAdd)
-        .then((pro)=>{
-          this.setState({sensorCode:'The process is done!'})
-          const proj = pro.data.pro
-          this.setState({myProject:proj})
-        })
-        .catch((err)=>{
-       //   console.log(err)
-        })
-      
-     
-      
-      }
-      
-    })
-    .catch((err)=>{
-   //   console.log(err)
-    })  
-   }
-
-  }
-
-
-
-
+//-------------------------------------------------------------------------RENDER
     render() {
       const {viewport} = this.state;
-        return (
-            <div className="Farm" id="element">
-            <img className="topFarmIMG" alt="topProfileIMG" src="https://res.cloudinary.com/jaacker25/image/upload/v1582955688/IOTFARM/Screenshot_from_2020-02-28_13-55-09_trboda.png"></img>
-            <section className="FarmBody">
+      return (
+      <div className="Farm" id="element">
+      <img className="topFarmIMG" alt="topProfileIMG" src="https://res.cloudinary.com/jaacker25/image/upload/v1582955688/IOTFARM/Screenshot_from_2020-02-28_13-55-09_trboda.png"></img>
+      <section className="FarmBody">
 
 <h1 style={{margin:'50px',textAlign:'center'}}>Smart farming sensor node data acquisition</h1>
-
 <div className="FarmInfoDiv">
+
 <article style={{display:'flex',alignItems:'center',justifyContent:'center'}}>
 <div style={{width:'80%',height:'90%'}}>
 <h1 style={{textAlign:'left', color:'rgb(80, 80, 80)'}}><b>Project Details:</b></h1>
@@ -252,19 +216,40 @@ if(this.state.sensorCode===''){
 <h1><TodayOutlinedIcon/>&nbsp;&nbsp;{this.state.myProject.date}</h1>
 <h1><AssignmentOutlinedIcon/>&nbsp;&nbsp;{this.state.myProject.description}</h1>
 <h1><SettingsInputAntennaOutlinedIcon/>&nbsp;&nbsp;Sensors Connected:&nbsp;{this.state.myProject.sensors&&this.state.myProject.sensors.length}</h1>
-
 </div>
-
 </article>
+
 <article style={{display:'flex',justifyContent:'flex-end',alignItems:'flex-end'}}>
 <input  type='file' name="photoURL" id="getFileIconFarm" style={{display:'none'}} onChange={this.handleFile} />
 <Fab size="medium" color="primary" aria-label="edit" onClick={this.handleEdit} style={{zIndex:'2',position:'absolute'}}>
-                <EditOutlinedIcon />
-                </Fab>
+<EditOutlinedIcon />
+</Fab>
 <img className="projectInfoImage" alt="projectImage" src={this.state.myProject.img}></img>
-
 </article>
+</div>
 
+
+<div style={{width:'85vw',height:'auto',margin: '50px 0',display:'flex',justifyContent:'center'}}>
+
+<MapGL {...viewport} mapboxApiAccessToken={TOKEN} mapStyle="mapbox://styles/mapbox/outdoors-v11" onViewportChange={this._updateViewport}>
+     
+
+{this.state.arrDataPos&&this.state.arrDataPos.map((sens,index)=>
+
+      <Marker key={index}  longitude={parseFloat(sens.field7)} latitude={parseFloat(sens.field6)}> 
+      <SettingsInputAntennaIcon className="farmSensorIcon"  onClick={this._onClickMarker({longitude:parseFloat(sens.field7),latitude:parseFloat(sens.field6),num:index})}/>
+      </Marker>)}
+      {this._renderPopup()}
+      </MapGL>
+</div>
+
+
+<div style={{width:'85vw',height:'auto',margin: '50px 25px',display:'flex',justifyContent:'center'}}>
+<VerticalTabs theSensors={this.state.myProject.sensors}/>
+</div>
+
+
+<div className="FarmInfoDiv">
 <article style={{display:'flex',justifyContent:'center',alignItems:'center',flexDirection:'column',width:'90%'}}>
 <h1>Scan a valid BarCode to Add a New Sensor</h1>
 <img alt="barcode" src="https://res.cloudinary.com/jaacker25/image/upload/v1583214922/IOTFARM/barcode_ksdvub.gif"></img>
@@ -277,54 +262,22 @@ if(this.state.sensorCode===''){
           margin="normal"
           value={this.state.sensorCode} 
           onChange={this.handleChange}
-          
         /><AddCircleOutlineRoundedIcon className="FarmAddSensor" onClick={this.handleSubmitBarcode}/>
-
-
-
-
-
-
 </article>
-
 </div>
-
-<div style={{width:'90vw',height:'50vh',margin: '50px 0'}}>
-
-<MapGL {...viewport} mapboxApiAccessToken={TOKEN} mapStyle="mapbox://styles/mapbox/outdoors-v11" onViewportChange={this._updateViewport}>
-      <div style={{position:'absolute',top:'0',left:'0',padding:'10px'}}>
-      </div>
-
-{this.state.arrDataPos&&this.state.arrDataPos.map((sens,index)=>
-
-      <Marker key={index}  longitude={parseFloat(sens.field7)} latitude={parseFloat(sens.field6)}> 
-      <SettingsInputAntennaIcon className="farmSensorIcon"  onClick={this._onClickMarker({longitude:parseFloat(sens.field7),latitude:parseFloat(sens.field6),num:index})}/>
-      </Marker>
-
-      
-)}
-{this._renderPopup()}
-      </MapGL>
-
-
-
-
-</div>
-
-<div>
-<VerticalTabs theSensors={this.state.myProject.sensors}/>
-</div>
-
-
-
-
             </section>
+
 
             <div>
              <h4 type="submit" onClick={this.handleReturn} className="btnSumbitBack">
              <ArrowBackIosIcon style={{paddingRight:'10px'}}/>Return
           </h4>
           </div>
+
+
+
+
+
           <footer className="footerFarm">
 
         <Box color={'#888888'} display={'flex'} alignItems={'center'} mb={1} marginBottom={5}>

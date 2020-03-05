@@ -151,7 +151,7 @@ export default class Profile extends Component {
                <div className="faceContainer">
                 <img className="face"  src={this.state.image} alt="face"></img>
                 <input type='file' name="photoURL" id="getFile" style={{display:'none'}} onChange={this.handleFile} />
-                <Fab size="medium" color="primary" aria-label="edit" onClick={this.handleEdit} style={{zIndex:'2'}}>
+                <Fab size="small" color="primary" aria-label="edit" onClick={this.handleEdit} style={{zIndex:'2'}}>
                 <EditOutlinedIcon />
                 </Fab>
                 </div>

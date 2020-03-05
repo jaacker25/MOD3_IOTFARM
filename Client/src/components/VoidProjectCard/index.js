@@ -1,7 +1,6 @@
 import React from 'react';
 import { useHistory } from "react-router-dom"; //re rendering test 2
-import myService from "../../services/User.js"
-
+import _myProject from "../../services/Project.js"
 import { makeStyles } from '@material-ui/styles';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
@@ -19,7 +18,6 @@ import Grid from '@material-ui/core/Grid';
 
 import PopFormAlert from '../../components/SignupAlert/index.js'
 
-//const useForceUpdate = () => useState()[1];//rerendering test 1
 
 
 const useStyles = makeStyles(() => ({
@@ -43,7 +41,6 @@ const useStyles = makeStyles(() => ({
   const [author, setAuthor] = React.useState('');
   const [alert, setAlert] = React.useState(false);
   const [alertmsg,setAlertmsg] = React.useState('');
-  //const forceUpdate = useForceUpdate();//re rendering test 1
   let history = useHistory(); //re rendering test 2
 
 
@@ -60,7 +57,7 @@ const useStyles = makeStyles(() => ({
     handleAlertTime('Please complete all fields!');
    }else{
     const p={pName,location,author,description}
-    myService.newProj(p)
+    _myProject.newProj(p)
     .then((project) => {
      const {data} = project
      const {proj}=data
@@ -70,7 +67,6 @@ const useStyles = makeStyles(() => ({
      setLocation(location)
      setAuthor(author)
      setDescription(description)
-     //forceUpdate();//rerendering test 1
      //history.push(`/Farm/${_id}`);//re rendering test 2
      setOpen(false);
      history.push('/R');
@@ -104,7 +100,6 @@ const handleAlertTime=(text)=>{
   setAlert(true);
   setAlertmsg(text);
 }
-//console.log('rendering');
   return (
     <>
     <Card elevation={0} className={styles.root} style={{margin:'25px',width:'350px', height:'428px',borderRadius:'25px',boxShadow:' 0px 0px 18px 1px rgba(0,0,0,0.44)'}}>
@@ -179,7 +174,7 @@ const handleAlertTime=(text)=>{
               />
               <p 
               style={{color:'gray',fontSize:'0.75rem',margin:'0'}}
-              >Description must be 115 characters max.</p>
+              >Description recomended be 115 characters max.</p>
 
             </Grid>
             

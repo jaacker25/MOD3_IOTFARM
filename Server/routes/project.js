@@ -21,21 +21,6 @@ router.post('/newProject', async(req,res,next)=>{
  .catch((err) => res.status(500).json({ err }));
 })
 
-router.post('/updateProject',async(req,res,next)=>{
-  const {pName,location,author,description,_id} = req.body
-  Project.findByIdAndUpdate({_id: _id},{pName:pName,location:location,author:author,description:description})
-  .then( proj => res.status(200).json({proj}))
-  .catch( err => res.status(500).json({err}))
-})
-
-router.post('/updateIconProj/:id',uploadConfig.single("photoURL"),async(
-  req,res,next)=>{
-  const {id}=req.params
-  const { secure_url } = req.file
-  const proj = await Project.findByIdAndUpdate({_id: id},{img:secure_url},{new:true})
-  res.status(200).json({ proj })
-})
-
 router.post('/updateSensor/:id',async(req,res,next)=>{
   const {id}=req.params
   let pro = await Project.findById(id)
@@ -45,39 +30,46 @@ router.post('/updateSensor/:id',async(req,res,next)=>{
   res.status(200).json({ pro })
 })
 
-router.post("/myProject", async (req,res,next)=>{
+router.post('/updateProject',(req,res,next)=>{
+  const {pName,location,author,description,_id} = req.body
+  Project.findByIdAndUpdate({_id: _id},{pName:pName,location:location,author:author,description:description})
+  .then( proj => res.status(200).json({proj}))
+  .catch( err => res.status(500).json({err}))
+})
+
+router.post('/updateIconProj/:id',uploadConfig.single("photoURL"),(req,res,next)=>{
+  const {id}=req.params
+  const { secure_url } = req.file
+  Project.findByIdAndUpdate({_id: id},{img:secure_url},{new:true})
+  .then( proj => res.status(200).json({proj}))
+  .catch( err => res.status(500).json({err}))
+})
+
+router.post("/myProject",(req,res,next)=>{
   const {projectId}=req.body
-  await Project.findById(projectId)
+  Project.findById(projectId)
  .then((p) => res.status(200).json({ p }))
  .catch((err) => res.status(500).json({ err }));
 })
 
-router.post("/deleteProject", async (req,res,next)=>{
+router.post("/deleteProject",(req,res,next)=>{
   const {_id}=req.body
-  await Project.findByIdAndDelete(_id)
+  Project.findByIdAndDelete(_id)
  .then((p) => res.status(200).json({ p }))
  .catch((err) => res.status(500).json({ err }));
 })
 
-
-router.get("/getAllSensors",async(req,res,next)=>{
-await AdmSensor.find()
+router.get("/getAllSensors",(req,res,next)=>{
+AdmSensor.find()
   .then((dataS) => res.status(200).json({ dataS }))
   .catch((err) => res.status(500).json({ err }));
 })
 
-
-
-
-router.post("/upload",uploadConfig.single("photoURL"),async(req,res,next)=>{
+router.post("/upload",uploadConfig.single("photoURL"),(req,res,next)=>{
   const { secure_url } = req.file
-  const user = await User.findByIdAndUpdate(
-    req.user._id,
-    { image: secure_url },
-    { new: true }
-  )
-  res.status(200).json({ user })
+  User.findByIdAndUpdate(req.user._id,{ image: secure_url },{ new: true })
+  .then((user) => res.status(200).json({ user }))
+  .catch((err) => res.status(500).json({ err }));
 })
-
 
 module.exports = router
