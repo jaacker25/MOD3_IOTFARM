@@ -1,6 +1,6 @@
 # The ultimate IoT Smart Farming
 
-Link del Demo [aqui](https://theultimateiotsmartfarming.netlify.com)
+## [Link del DEMO aqui](https://theultimateiotsmartfarming.netlify.com)
 
 ## ¿Cómo surgio la idea? 🚀
 Soy un apasionado de la ingenieria electrónica y un tema recurrente que ademas es tendencia en el que se unen tanto la electronica como el desarrollo web es el IoT (Internet de las Cosas).
@@ -27,7 +27,7 @@ La platafroma ademas de mostrar graficamente los datos obtenidos de los sensores
 * Para utilizar la aplicación hay que clonar el repo:
 `https://github.com/jaacker25/MOD3_IOTFARM.git`
 ### Backend
-* Dentro de la carpeta Server correspondiente al Back End se debe agregar un archivo .env con la siguiente configuración:
+* Dentro de la carpeta Server correspondiente al Backend se debe agregar un archivo .env con la siguiente configuración:
 ```
 PORT=3000
 ENV=development
@@ -43,7 +43,7 @@ CLOUDINARY_SECRET=[SECRET OF CLOUDINARY ACCOUNT]
 `npm run dev`
 
 ### Frontend
-* Dentro de la carpeta Server correspondiente al Back End se debe agregar un archivo .env con la siguiente configuración:
+* Dentro de la carpeta Client correspondiente al Frontend se debe agregar un archivo .env con la siguiente configuración:
 ```
 REACT_APP_MAPBOX_ACCESS_TOKEN=[TOKEN OF MAPBOX ACCOUNT]
 ```
@@ -51,8 +51,8 @@ REACT_APP_MAPBOX_ACCESS_TOKEN=[TOKEN OF MAPBOX ACCOUNT]
 `npm i`
 `npm run start`
 
-### Probar la DEMO
-* Para probar la demo se puede hacr uso de la siguiente cuenta:
+### Para Probar la DEMO
+* Para probar la demo se puede hacer uso de la siguiente cuenta:
 ```
 email: jaguilar.ice@gmail.com
 password: 1!1
