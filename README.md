@@ -19,7 +19,7 @@ La platafroma ademas de mostrar graficamente los datos obtenidos de los sensores
 ![alt text](https://res.cloudinary.com/jaacker25/image/upload/v1583806190/IOTFARM/rtrtrt_heufka.png)
 ![alt text](https://res.cloudinary.com/jaacker25/image/upload/v1583806309/IOTFARM/tttrrrr_iyirxi.png)
 
-## ¿Cómo hacer uso la aplicación? ⚙️
+## ¿Cómo hacer uso de la aplicación? ⚙️
 ### Requerimientos
 * Cuenta en Cloudinary
 * MongoDB (Servidor local o Mongo Atlas)
